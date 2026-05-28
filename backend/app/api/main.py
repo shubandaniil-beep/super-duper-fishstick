@@ -35,9 +35,27 @@ async def health():
     return {"status": "ok"}
 
 
+from fastapi import Request
+
+@app.post("/webhook")
+async def telegram_webhook(request: Request):
+    """Telegram webhook endpoint — receives updates from Telegram."""
+    from app.bot.webhook import process_update
+    data = await request.json()
+    await process_update(data)
+    return {"ok": True}
+
+
+@app.get("/set-webhook")
+async def set_webhook_endpoint(url: str):
+    """Разово вызывается для регистрации webhook URL в Telegram."""
+    from app.bot.main import set_webhook
+    await set_webhook(url)
+    return {"ok": True, "webhook": f"{url}/webhook"}
+
+
 async def start_api():
     import uvicorn
-    from app.core.config import settings
     port = 8000
     config = uvicorn.Config(app, host="0.0.0.0", port=port, loop="asyncio")
     server = uvicorn.Server(config)
