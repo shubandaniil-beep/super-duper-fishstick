@@ -1,0 +1,17 @@
+from pydantic import BaseModel
+
+
+class LoginRequest(BaseModel):
+    email: str
+    password: str
+
+
+class TokenResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    user: dict
+
+
+class TokenPayload(BaseModel):
+    sub: str
+    role: str
