@@ -13,3 +13,4 @@ python-dotenv==1.0.1
 aiohttp==3.9.5
 Pillow==10.3.0
 apscheduler==3.10.4
+mangum==0.17.0
